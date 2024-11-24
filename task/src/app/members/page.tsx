@@ -1,62 +1,16 @@
-import { fetchData } from "@/apiService/api";
-
-interface User {
-    uid: string;
-    name: string;
-    email: string;
-    imageUid: string;
-    githubHandler: string | null;
-    discordHandler: string | null;
-    twitterHandler: string | null;
-    linkedinHandler: string | null;
-    telegramHandler: string | null;
-    officeHours: string | null;
-    moreDetails: string | null;
-    bio: string | null;
-    plnFriend: boolean;
-    plnStartDate: string;
-    airtableRecId: string;
-    externalId: string;
-    openToWork: boolean;
-    isFeatured: boolean;
-    createdAt: string;
-    updatedAt: string;
-    approvedAt: string;
-    locationUid: string;
-    preferences: string | null;
-    region?: string;
-    country?: string;
-    engagementType?: string;
-}
+import ClientMember from "@/components/Pagination";
 
 interface MemberProps {
     searchParams: { [key: string]: string | undefined };
 }
 
-
-const Member = async ({ searchParams }: MemberProps) => {
-
-    const users: User[] = await fetchData()
-
-    const region = searchParams.region
-    const country = searchParams.country
-    const officeHours = searchParams.OfficeHours === 'true';
-    const openToCollaborate = searchParams.OpenToCollaborate === 'true';
-    const friends = searchParams.Friends === 'true';
-    const newMember = searchParams.NewMember === 'true';
-
-    const filteredMembers = users.filter((member) => {
-        const matchesRegion = region ? member.region === region : true;
-        const matchesCountry = country ? member.country === country : true;
-
-        const matchesOfficeHours = officeHours ? member.engagementType === "OfficeHours" : true;
-        const matchesOpenToCollaborate = openToCollaborate ? member.engagementType === "OpenToCollaborate" : true;
-        const matchesFriends = friends ? member.engagementType === "Friends" : true;
-        const matchesNewMember = newMember ? member.engagementType === "NewMember" : true;
-
-        return matchesRegion && matchesCountry && matchesOfficeHours && matchesOpenToCollaborate && matchesFriends && matchesNewMember;
-    })
-
+const Member = ({ searchParams }: MemberProps) => {
+    const region = searchParams.region;
+    const country = searchParams.country;
+    const officeHours = searchParams.OfficeHours === "true";
+    const openToCollaborate = searchParams.OpenToCollaborate === "true";
+    const friends = searchParams.Friends === "true";
+    const newMember = searchParams.NewMember === "true";
 
     return (
         <>
@@ -64,7 +18,7 @@ const Member = async ({ searchParams }: MemberProps) => {
             <div className="member__content mt-10">
                 <div className="member__content_header">
                     <div className="member__content_title">
-                        <h1 className="member__content_h1"> Members <span className="member__content_span">({users.length})</span></h1>
+                        <h1 className="member__content_h1"> Members <span className="member__content_span">(1234)</span></h1>
                     </div>
                     <div className="member__content_search">
                         <input type="text" placeholder="Search by Mentor Name, Team or Project" />
@@ -96,39 +50,16 @@ const Member = async ({ searchParams }: MemberProps) => {
                         </div>
                     </div>
                 </div>
-                <div className="member__card-wrapper">
-                    <div className="member__card">
-                        {/* card for users */}
-                        {filteredMembers.map((item) => (
-                            <div key={item.uid} className="member__list card">
-                                <div className="member__image-container">
-                                    <div className="member__image">
-                                        <img src="./photo.jpg" alt="photo" />
-                                    </div>
-                                </div>
-                                <div className="member__details">
-                                    <div className="member__name">{item.name}</div>
-                                    <div className="member__department">{item.region}</div>
-                                    <div className="member__role">{item.engagementType}</div>
-                                </div>
-                                <div className="member__divider"></div>
-                                <div className="member__product-container">
-                                    <span className="member__product-span"></span>
-                                    <div className="member__product">
-                                        Engineering
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div id="scroll-trigger" className="infinite__scroll-trigger"></div>
-                    {/* {loading && <div>Loading... </div>} */}
-                </div>
+                <ClientMember
+                    region={region}
+                    country={country}
+                    officeHours={officeHours}
+                    openToCollaborate={openToCollaborate}
+                    friends={friends}
+                    newMember={newMember} />
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Member
-
-
+export default Member;

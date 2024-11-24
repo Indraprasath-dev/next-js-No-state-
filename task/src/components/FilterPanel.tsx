@@ -9,33 +9,32 @@ const FilterPanel = () => {
 
     const router = useRouter()
     const searchParams = useSearchParams()
+    
 
-    
-    
     const handleRegion = (region: string) => {
-        //const params = new URLSearchParams(window.location.search);
-        const params = new URLSearchParams(searchParams.toString());
+        //const params = new URLSearchParams(window.location.search) 
+        const params = new URLSearchParams(searchParams.toString()) 
 
         if (params.get('region') === region) {
-            params.delete('region');
+            params.delete('region') 
         } else {
-            params.set('region', region);
+            params.set('region', region) 
         }
     
-        router.push(`/members?${params.toString()}`);
-    };
+        router.push(`/members?${params.toString()}`) 
+    } 
     
     const handleCountry = (country: string) => {
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(searchParams.toString()) 
 
     
         if (params.get('country') === country) {
-            params.delete('country');
+            params.delete('country') 
         } else {
-            params.set('country', country);
+            params.set('country', country) 
         }
     
-        router.push(`/members?${params.toString()}`);
+        router.push(`/members?${params.toString()}`) 
     }
     
 
@@ -44,17 +43,17 @@ const FilterPanel = () => {
     }
 
     const handleToggle = (toggleKey: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        const isActive = params.get(toggleKey) === 'true';
+        const params = new URLSearchParams(searchParams.toString()) 
+        const isActive = params.get(toggleKey) === 'true' 
 
         if (isActive) {
-            params.delete(toggleKey);
+            params.delete(toggleKey) 
         } else {
-            params.set(toggleKey, 'true');
+            params.set(toggleKey, 'true') 
         }
 
-        router.push(`/members?${params.toString()}`);
-    };
+        router.push(`/members?${params.toString()}`) 
+    } 
     
     return (
         <>
@@ -117,7 +116,7 @@ const FilterPanel = () => {
                 <h2>Country</h2>
                 <div className="filter__region">
                     {countries.map((country) => {
-                        const isActive = searchParams.get('country') === country;      
+                        const isActive = searchParams.get('country') === country       
                         return(
                         <button key={country} onClick={()=>handleCountry(country)} className={`Filter__button ${isActive ? 'active' : ''}`}>{country}</button>
                     )
