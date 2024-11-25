@@ -34,6 +34,7 @@ interface User {
 }
 
 interface MemberFilterProps {
+    initialUsers: User[];
     region?: string;
     country?: string;
     officeHours?: boolean;
@@ -42,16 +43,17 @@ interface MemberFilterProps {
     newMember?: boolean;
 }
 
-const Pagination = ({region, country, officeHours, openToCollaborate, friends, newMember, }: MemberFilterProps) => {   
-
-    const [state, setState] = useState({
-        users: [] as User[],
-        loading: false,
-        page: 1,
-        hasMore: true,
-    });
+const Pagination = ({initialUsers, region, country, officeHours, openToCollaborate, friends, newMember, }: MemberFilterProps) => {   
 
     const observer = useRef<IntersectionObserver | null>(null);
+
+    const [state, setState] = useState({
+        users: initialUsers,
+        loading: false,
+        page: 2,
+        hasMore: true
+    });
+
 
     const loadMoreUsers = async () => {
         if (state.loading || !state.hasMore) return;
@@ -68,10 +70,6 @@ const Pagination = ({region, country, officeHours, openToCollaborate, friends, n
         }));
 
     };
-
-    useEffect(() => {
-        loadMoreUsers();
-    }, []);
 
     useEffect(() => {
         const handleScroll = () => {

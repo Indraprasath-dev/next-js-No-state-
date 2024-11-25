@@ -12,7 +12,6 @@ const FilterPanel = () => {
     
 
     const handleRegion = (region: string) => {
-        //const params = new URLSearchParams(window.location.search) 
         const params = new URLSearchParams(searchParams.toString()) 
 
         if (params.get('region') === region) {
@@ -26,7 +25,6 @@ const FilterPanel = () => {
     
     const handleCountry = (country: string) => {
         const params = new URLSearchParams(searchParams.toString()) 
-
     
         if (params.get('country') === country) {
             params.delete('country') 

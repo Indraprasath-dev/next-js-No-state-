@@ -1,17 +1,55 @@
+import { fetchData } from "@/apiService/api";
 import Pagination from "@/components/Pagination";
+
+interface User {
+    uid: string;
+    name: string;
+    email: string;
+    imageUid: string;
+    githubHandler: string | null;
+    discordHandler: string | null;
+    twitterHandler: string | null;
+    linkedinHandler: string | null;
+    telegramHandler: string | null;
+    officeHours: string | null;
+    moreDetails: string | null;
+    bio: string | null;
+    plnFriend: boolean;
+    plnStartDate: string;
+    airtableRecId: string;
+    externalId: string;
+    openToWork: boolean;
+    isFeatured: boolean;
+    createdAt: string;
+    updatedAt: string;
+    approvedAt: string;
+    locationUid: string;
+    preferences: string | null;
+    region?: string;
+    country?: string;
+    engagementType?: string;
+}
+
 
 interface MemberProps {
     searchParams: { [key: string]: string | undefined };
 }
 
-const Member = ({ searchParams }: MemberProps) => {
-
+const Member = async ({ searchParams }: MemberProps) => {
     const region = searchParams.region;
     const country = searchParams.country;
     const officeHours = searchParams.OfficeHours === "true";
     const openToCollaborate = searchParams.OpenToCollaborate === "true";
     const friends = searchParams.Friends === "true";
     const newMember = searchParams.NewMember === "true";
+
+    const page = 1;
+    let initialUsers: User[] = [];
+    try {
+        initialUsers = await fetchData(page);
+    } catch (error) {
+        console.error("Error fetching initial users:", error);
+    }
 
     return (
         <>
@@ -51,6 +89,7 @@ const Member = ({ searchParams }: MemberProps) => {
                     </div>
                 </div>
                 <Pagination
+                    initialUsers={initialUsers}
                     region={region}
                     country={country}
                     officeHours={officeHours}
@@ -62,4 +101,4 @@ const Member = ({ searchParams }: MemberProps) => {
     );
 };
 
-export default Member;
+export default Member

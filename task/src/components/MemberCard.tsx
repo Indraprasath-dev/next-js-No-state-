@@ -49,7 +49,7 @@ const MemberCard = ({ members, loading }: MemberListProps) => {
                                 <div className="member__name">{item.name}</div>
                                 <div className="member__department">{item.region}</div>
                                 <div className="member__department">{item.country}</div>
-                                <div className="member__role">{item.engagementType}</div>
+                                {/* <div className="member__role">{item.engagementType}</div> */}
                             </div>
                             <div className="member__divider"></div>
                             <div className="member__product-container">
