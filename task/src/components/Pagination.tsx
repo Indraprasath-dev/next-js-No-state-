@@ -33,7 +33,7 @@ interface User {
     engagementType?: string;
 }
 
-interface ClientMemberProps {
+interface MemberFilterProps {
     region?: string;
     country?: string;
     officeHours?: boolean;
@@ -42,27 +42,31 @@ interface ClientMemberProps {
     newMember?: boolean;
 }
 
-const Pagination = ({region, country, officeHours, openToCollaborate, friends, newMember, }: ClientMemberProps) => {   
+const Pagination = ({region, country, officeHours, openToCollaborate, friends, newMember, }: MemberFilterProps) => {   
 
-    const [users, setUsers] = useState<User[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [page, setPage] = useState<number>(1);
-    const [hasMore, setHasMore] = useState<boolean>(true);
+    const [state, setState] = useState({
+        users: [] as User[],
+        loading: false,
+        page: 1,
+        hasMore: true,
+    });
 
     const observer = useRef<IntersectionObserver | null>(null);
 
     const loadMoreUsers = async () => {
-        if (loading || !hasMore) return;
-        setLoading(true);
+        if (state.loading || !state.hasMore) return;
+        
+        setState((prev) => ({ ...prev, loading: true }));
 
-        const newUsers = await fetchData(page);
-        setUsers((prev) => [...prev, ...newUsers]);
-        setLoading(false);
-        setPage((prev) => prev + 1);
+        const newUsers = await fetchData(state.page);
+        setState((prev) => ({
+            ...prev,
+            users: [...prev.users, ...newUsers],
+            loading: false,
+            page: prev.page + 1,
+            hasMore: newUsers.length > 0
+        }));
 
-        if (newUsers.length === 0) {
-            setHasMore(false);
-        }
     };
 
     useEffect(() => {
@@ -91,9 +95,9 @@ const Pagination = ({region, country, officeHours, openToCollaborate, friends, n
         };
 
         handleScroll();
-    }, [users, loading, hasMore]);
+    }, [state.users, state.loading, state.hasMore]);
 
-    const filteredMembers = users.filter((member) => {
+    const filteredMembers = state.users.filter((member) => {
         const matchesRegion = region ? member.region === region : true;
         const matchesCountry = country ? member.country === country : true;
 
@@ -110,7 +114,7 @@ const Pagination = ({region, country, officeHours, openToCollaborate, friends, n
     });
 
     return (
-        <MemberList members={filteredMembers} loading={loading} />
+        <MemberList members={filteredMembers} loading={state.loading} />
     );
 };
 

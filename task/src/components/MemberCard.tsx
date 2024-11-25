@@ -60,7 +60,7 @@ const MemberCard = ({ members, loading }: MemberListProps) => {
                     ))}
                     <div id="scroll-trigger" className="infinite__scroll-trigger"></div>
                 </div>
-                <div className="flex justify-center m-5">
+                <div className="loader">
                     {loading && <div>Loading...</div>}
                 </div>
                 

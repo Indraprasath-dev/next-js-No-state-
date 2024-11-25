@@ -1,10 +1,11 @@
-import ClientMember from "@/components/Pagination";
+import Pagination from "@/components/Pagination";
 
 interface MemberProps {
     searchParams: { [key: string]: string | undefined };
 }
 
 const Member = ({ searchParams }: MemberProps) => {
+
     const region = searchParams.region;
     const country = searchParams.country;
     const officeHours = searchParams.OfficeHours === "true";
@@ -14,7 +15,6 @@ const Member = ({ searchParams }: MemberProps) => {
 
     return (
         <>
-            {/* right side */}
             <div className="member__content mt-10">
                 <div className="member__content_header">
                     <div className="member__content_title">
@@ -50,7 +50,7 @@ const Member = ({ searchParams }: MemberProps) => {
                         </div>
                     </div>
                 </div>
-                <ClientMember
+                <Pagination
                     region={region}
                     country={country}
                     officeHours={officeHours}

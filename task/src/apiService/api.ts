@@ -5,7 +5,7 @@ const engagementTypes = ["OfficeHours", "OpenToCollaborate", "Friends", "NewMemb
 export const fetchData = async (pageNumber: Number) => {
     try {
         //const res = await fetch('https://stag-protocol-labs-network-api.herokuapp.com/v1/members?pagination=false') 
-        const res = await fetch(`https://stag-protocol-labs-network-api.herokuapp.com/v1/members?pagination=true&page=${pageNumber}&limit=20`)
+        const res = await fetch(`https://stag-protocol-labs-network-api.herokuapp.com/v1/members?pagination=true&page=${pageNumber}&limit=60`)
         if (!res.ok) {
             console.error(`Error: ${res.status} ${res.statusText}`)
         }
